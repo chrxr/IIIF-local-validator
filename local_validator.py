@@ -9,7 +9,7 @@ import sys
 
 from loader import ManifestReader
 
-def main():
+def validator():
     file_path = 'static'
 
     parser = argparse.ArgumentParser(description=__doc__.strip(),
@@ -20,22 +20,73 @@ def main():
     parser.add_argument('--file',
                         help='Location of IIIF manifest file to validate')
 
+    parser.add_argument('--write',
+                        help='Specify a file name to write the results of the validation to')
+
+    # ADDITIONAL ARGUMENTS TO ADD LATER
+    #
+    # parser.add_argument('--fails', action='store_true',
+    #                     help='Only gives details re manifests that have failed')
+    #
+    # parser.add_argument('--warnings', action='store_true',
+    #                     help='Only gives details re manifests that have failed or have warnings')
+
+    # parser.add_argument('--raw', action='store_true',
+    #                     help='Just delivers the raw JSON response')
+
     args = parser.parse_args()
 
     if args.file != None:
-        results = [read_file(args.file)]
+        results = [read_file_and_validate(args.file)]
 
     if args.folder:
         paths = [os.path.join(file_path,fn) for fn in next(os.walk(file_path))[2]]
         results = []
         for each in paths:
-            result = read_file(each)
-            results.append(result)
+            if each.endswith('.json'):
+                result = read_file_and_validate(each)
+                results.append(result)
 
     if results:
-        print results
+        formatted_results = []
+        summary = {'passed':0, 'failed':0}
+        for manifest in results:
+            if manifest['okay'] == 1:
+                summary['passed'] += 1
+            else:
+                summary['failed'] += 1
+            formatted_result = format_results(manifest)
+            formatted_results.append(formatted_result)
 
-def read_file(manifest):
+        print "Summary\nPassed: "+str(summary['passed'])+"\nFailed: "+str(summary['failed'])+"\n"
+
+        if args.write:
+            filename = args.write
+            f = open(filename, 'w')
+            for result in formatted_results:
+                f.write(str(result))
+            f.close
+
+        else:
+            for each in formatted_results:
+                print each
+
+
+
+def format_results(manifest):
+    filename = manifest['filename']
+    okay = manifest['okay']
+    warnings = manifest['warnings']
+    errors = manifest['error']
+    if okay == 1:
+        status = 'Passed!'
+    else:
+        status = 'Failed :('
+    formatted_results = 'File name: '+filename+'\nStatus: '+status+'\nWarnings: '+str(warnings)+'\nErrors: '+errors+'\n\n'
+    return formatted_results
+
+
+def read_file_and_validate(manifest, fails_only=False, warnings_only=False):
     json_data=open(manifest).read()
 
     data = json.loads(json_data)
@@ -54,10 +105,8 @@ def read_file(manifest):
     warnings = []
     warnings.extend(reader.get_warnings())
 
-
-    infojson = {'okay': okay, 'warnings': warnings, 'error': str(err)}
-    # print infojson
+    infojson = {'filename': manifest, 'okay': okay, 'warnings': warnings, 'error': str(err)}
     return infojson
 
 if __name__ == "__main__":
-    main()
+    validator()

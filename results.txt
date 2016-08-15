@@ -1,0 +1,15 @@
+File name: static/test1.json
+Status: Failed :(
+Warnings: []
+Errors: Metadata API Base URI is not set
+
+File name: static/test2.json
+Status: Passed!
+Warnings: ["WARNING: Setting non-standard field 'navDate' on resource of type 'sc:Manifest'\n", "WARNING: Resource type 'oa:Annotation' should have '@id' set\n"]
+Errors: None
+
+File name: static/test3.json
+Status: Failed :(
+Warnings: ["WARNING: Setting non-standard field 'navDate' on resource of type 'sc:Manifest'\n"]
+Errors: Every resource must have @type
+
