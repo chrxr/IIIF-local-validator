@@ -3,5 +3,5 @@
 
 from local_validator import validator
 
-different_folder_path = "manifests/child"
-validator(folder=True, folder_path=different_folder_path)
+results = validator(folder=True, raw=True)
+print results

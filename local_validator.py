@@ -10,7 +10,7 @@ import sys
 from loader import ManifestReader
 
 
-def validator(single_file=None, folder=False, write=None, folder_path='manifests'):
+def validator(single_file=None, folder=False, write=None, folder_path='manifests', raw=False):
 
     if single_file != None:
         if not single_file.endswith('json'):
@@ -29,27 +29,30 @@ def validator(single_file=None, folder=False, write=None, folder_path='manifests
         sys.exit(0)
 
     if results:
-        formatted_results = []
-        summary = {'passed':0, 'failed':0}
-        for manifest in results:
-            if manifest['okay'] == 1:
-                summary['passed'] += 1
-            else:
-                summary['failed'] += 1
-            formatted_result = format_results(manifest)
-            formatted_results.append(formatted_result)
-
-        print "Summary\nPassed: "+str(summary['passed'])+"\nFailed: "+str(summary['failed'])+"\n"
-
-        if write:
-            filename = write
-            f = open(filename, 'w')
-            for result in formatted_results:
-                f.write(result)
-            f.close
+        if raw == True:
+            return results
         else:
-            for each in formatted_results:
-                print each
+            formatted_results = []
+            summary = {'passed':0, 'failed':0}
+            for manifest in results:
+                if manifest['okay'] == 1:
+                    summary['passed'] += 1
+                else:
+                    summary['failed'] += 1
+                formatted_result = format_results(manifest)
+                formatted_results.append(formatted_result)
+
+            print "Summary\nPassed: "+str(summary['passed'])+"\nFailed: "+str(summary['failed'])+"\n"
+
+            if write:
+                filename = write
+                f = open(filename, 'w')
+                for result in formatted_results:
+                    f.write(result)
+                f.close
+            else:
+                for each in formatted_results:
+                    print each
 
 
 def format_results(manifest):
@@ -100,6 +103,8 @@ if __name__ == "__main__":
                         help='Location of IIIF manifest file to validate')
     parser.add_argument('--write',
                         help='Specify a file name to write the results of the validation to')
+    parser.add_argument('--raw', action='store_true', default='false',
+                        help='Just delivers the raw JSON response')
 
     # ADDITIONAL ARGUMENTS TO ADD LATER
     # parser.add_argument('--fails', action='store_true',

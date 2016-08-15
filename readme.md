@@ -24,7 +24,9 @@ The script can be imported into other python scripts:
 
 It should be called with the following variables:
 
-    validator([single_file_path], [folder = True], [results_file_path])
+    validator([single_file_path], [folder = True], [results_file_path], [raw=True])
+
+The `raw` option returns the validation results as a list of dictionaries.
 
 The example below would validate a single file and save to `more_results.txt`
 
@@ -33,6 +35,10 @@ The example below would validate a single file and save to `more_results.txt`
 The example below would validate a folder of files, but only display the results in the console:
 
     validator(folder=True)
+
+The example below would validate a folder of files, and return the results as a list of dictionaries:
+
+    results = validator(folder=True, raw=True)
 
 When using as a module, you can also define an alternative folder path:
 
