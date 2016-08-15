@@ -2,8 +2,7 @@
 
 **WIP**
 
-* ManifestFactory, Loader and most of main script copied from the main Presentation API implementations GitHub rep: https://github.com/IIIF/presentation-api/tree/master/implementations
-* Very much a work in progress, but generally works.
+ManifestFactory, Loader and most of main script copied from the main Presentation API implementations GitHub repo: https://github.com/IIIF/presentation-api/tree/master/implementations, so thanks to them.
 
 Usage:
 
