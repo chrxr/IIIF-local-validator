@@ -1,12 +1,12 @@
-###Script for validating individual IIIF manifests or folder of manifests
+#Script for validating individual IIIF manifests or folder of manifests
 
 **WIP**
 
 ManifestFactory, Loader and most of main script copied from the main Presentation API implementations GitHub repo: https://github.com/IIIF/presentation-api/tree/master/implementations, so thanks to them.
 
-###Usage
+##Usage
 
-####Command line
+###Command line
 
     $ python ./local_validator.py [--folder] [--file path/to/single/manifest/file] [--write path/to/file/to/write/results]
 
@@ -16,7 +16,7 @@ ManifestFactory, Loader and most of main script copied from the main Presentatio
 * 'Static' folder should be in the in the same directory as local_validator.py.
 * Results file is overwritten each time the script is run
 
-####As a module
+###As a module
 
 The script can be imported into other python scripts:
 
