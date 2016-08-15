@@ -69,7 +69,7 @@ def validator():
             filename = args.write
             f = open(filename, 'w')
             for result in formatted_results:
-                f.write(str(result))
+                f.write(result)
             f.close
 
         else:
