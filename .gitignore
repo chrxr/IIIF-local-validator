@@ -1,1 +1,3 @@
 *.pyc
+*/validator_test.py
+manifests/child

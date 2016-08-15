@@ -9,48 +9,24 @@ import sys
 
 from loader import ManifestReader
 
-def validator():
-    file_path = 'static'
 
-    parser = argparse.ArgumentParser(description=__doc__.strip(),
-                                     formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+def validator(single_file=None, folder=False, write=None, folder_path='manifests'):
 
-    parser.add_argument('--folder', action='store_true', help='Add this flag to process a folder of manifests')
-
-    parser.add_argument('--file',
-                        help='Location of IIIF manifest file to validate')
-
-    parser.add_argument('--write',
-                        help='Specify a file name to write the results of the validation to')
-
-    # ADDITIONAL ARGUMENTS TO ADD LATER
-    #
-    # parser.add_argument('--fails', action='store_true',
-    #                     help='Only gives details re manifests that have failed')
-    #
-    # parser.add_argument('--warnings', action='store_true',
-    #                     help='Only gives details re manifests that have failed or have warnings')
-
-    # parser.add_argument('--raw', action='store_true',
-    #                     help='Just delivers the raw JSON response')
-
-    args = parser.parse_args()
-
-    if args.file == None and args.folder == False:
-        print "\nERROR: No arguments detected\n"
-        parser.print_help()
-        sys.exit(0)
-
-    if args.file != None:
-        results = [read_file_and_validate(args.file)]
-
-    if args.folder:
-        paths = [os.path.join(file_path,fn) for fn in next(os.walk(file_path))[2]]
+    if single_file != None:
+        if not single_file.endswith('json'):
+            print "ERROR: Only files with .json extension can be validated. Have you forgotten to provide all the arguments?"
+            sys.exit(0)
+        results = [read_file_and_validate(single_file)]
+    elif folder == True:
+        paths = [os.path.join(folder_path,fn) for fn in next(os.walk(folder_path))[2]]
         results = []
         for each in paths:
             if each.endswith('.json'):
                 result = read_file_and_validate(each)
                 results.append(result)
+    else:
+        print "ERROR: local validator requires either folder flag or a specific manifest path set"
+        sys.exit(0)
 
     if results:
         formatted_results = []
@@ -65,17 +41,15 @@ def validator():
 
         print "Summary\nPassed: "+str(summary['passed'])+"\nFailed: "+str(summary['failed'])+"\n"
 
-        if args.write:
-            filename = args.write
+        if write:
+            filename = write
             f = open(filename, 'w')
             for result in formatted_results:
                 f.write(result)
             f.close
-
         else:
             for each in formatted_results:
                 print each
-
 
 
 def format_results(manifest):
@@ -113,5 +87,33 @@ def read_file_and_validate(manifest, fails_only=False, warnings_only=False):
     infojson = {'filename': manifest, 'okay': okay, 'warnings': warnings, 'error': str(err)}
     return infojson
 
+
 if __name__ == "__main__":
-    validator()
+
+    # If called from command line, accept the following arguments
+    parser = argparse.ArgumentParser(description=__doc__.strip(),
+                                     formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+
+    parser.add_argument('--folder', action='store_true',
+                        help='Add this flag to process a folder of manifests')
+    parser.add_argument('--file',
+                        help='Location of IIIF manifest file to validate')
+    parser.add_argument('--write',
+                        help='Specify a file name to write the results of the validation to')
+
+    # ADDITIONAL ARGUMENTS TO ADD LATER
+    # parser.add_argument('--fails', action='store_true',
+    #                     help='Only gives details re manifests that have failed')
+    # parser.add_argument('--warnings', action='store_true',
+    #                     help='Only gives details re manifests that have failed or have warnings')
+    # parser.add_argument('--raw', action='store_true',
+    #                     help='Just delivers the raw JSON response')
+
+    args = parser.parse_args()
+
+    if args.file == None and args.folder == False:
+        print "\nERROR: No arguments detected\n"
+        parser.print_help()
+        sys.exit(0)
+
+    validator(args.file, args.folder, args.write)

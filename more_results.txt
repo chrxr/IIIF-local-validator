@@ -1,0 +1,5 @@
+File name: manifests/test1.json
+Status: Failed :(
+Warnings: []
+Errors: Metadata API Base URI is not set
+
