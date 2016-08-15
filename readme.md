@@ -45,6 +45,25 @@ When using as a module, you can also define an alternative folder path:
     different_folder_path = "manifests/child"
     validator(folder=True, folder_path=different_folder_path)
 
+### Breaking down the results
+
+The following script would print each of the fields as the individual manifest results:
+
+  from local_validator import validator
+
+  results = validator(folder=True, raw=True)
+
+  for result in results:
+      print result['warnings']
+      print result['error']
+      print result['okay']
+      print result['filename']
+
+* `result['filename']`: The path and filename of the file that has been validated
+* `result['warnings']`: A list of all warnings for the manifest
+* `result['error']`: The first error that the validator encounters (it stops at that point)
+* `result['okay']`: Returns '1' if the manifest is valid, or '0' if it's invalid
+
 ####To Do:
 
 * [ ] Flag to only return validation failures

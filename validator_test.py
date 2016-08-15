@@ -4,4 +4,10 @@
 from local_validator import validator
 
 results = validator(folder=True, raw=True)
-print results
+
+for result in results:
+    print result
+    print result['warnings']
+    print result['error']
+    print result['okay']
+    print result['filename']
