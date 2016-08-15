@@ -8,7 +8,7 @@ Usage:
 
     $ python ./local_validator.py [--folder] [--file path/to/file] [--write path/to/file/to/write/results]
 
-* `--folder` flag validates all json files in the 'static'.
+* `--folder` flag validates all json files in the 'static' directory.
 * 'Static' folder should be in the in the same directory as local_validator.py.
 * Results file is overwritten each time the script is run
 
