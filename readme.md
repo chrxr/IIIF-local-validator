@@ -24,7 +24,7 @@ The script can be imported into other python scripts:
 
 It should be called with the following variables:
 
-    validator([single_file_path], [folder = True], [write = True])
+    validator([single_file_path], [folder = True], [results_file_path])
 
 The example below would validate a single file and save to `more_results.txt`
 
