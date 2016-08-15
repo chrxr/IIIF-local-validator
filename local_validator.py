@@ -36,6 +36,11 @@ def validator():
 
     args = parser.parse_args()
 
+    if args.file == None and args.folder == False:
+        print "\nERROR: No arguments detected\n"
+        parser.print_help()
+        sys.exit(0)
+
     if args.file != None:
         results = [read_file_and_validate(args.file)]
 
