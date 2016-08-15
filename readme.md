@@ -47,7 +47,7 @@ When using as a module, you can also define an alternative folder path:
 
 ### Breaking down the results
 
-The following script would print each of the fields as the individual manifest results:
+The following script would print each of the fields for the individual manifest results:
 
     from local_validator import validator
 
