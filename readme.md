@@ -49,15 +49,15 @@ When using as a module, you can also define an alternative folder path:
 
 The following script would print each of the fields as the individual manifest results:
 
-  from local_validator import validator
+    from local_validator import validator
 
-  results = validator(folder=True, raw=True)
+    results = validator(folder=True, raw=True)
 
-  for result in results:
-      print result['warnings']
-      print result['error']
-      print result['okay']
-      print result['filename']
+    for result in results:
+        print result['warnings']
+        print result['error']
+        print result['okay']
+        print result['filename']
 
 * `result['filename']`: The path and filename of the file that has been validated
 * `result['warnings']`: A list of all warnings for the manifest
