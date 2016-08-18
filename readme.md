@@ -20,7 +20,7 @@ ManifestFactory, Loader and most of main script copied from the main Presentatio
 
 The script can be imported into other python scripts:
 
-    from local_validator import module
+    from local_validator import validator
 
 It should be called with the following variables:
 
