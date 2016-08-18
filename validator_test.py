@@ -3,7 +3,8 @@
 
 from local_validator import validator
 
-results = validator(folder=True, raw=True)
+results = validator(folder=True, folder_path='manifests/child', raw=True)
+
 
 for result in results:
     print result

@@ -13,7 +13,7 @@ ManifestFactory, Loader and most of main script copied from the main Presentatio
 * `--folder` flag validates all json files in the 'static' directory.
 * `--file` takes a path to a single manifest file for validation
 * `--write` takes a path to a file to write results to (or creates file if it doesn't already exist)
-* 'Static' folder should be in the in the same directory as local_validator.py.
+* 'manifests' folder should be in the in the same directory as local_validator.py.
 * Results file is overwritten each time the script is run
 
 ###As a module
@@ -24,7 +24,7 @@ The script can be imported into other python scripts:
 
 It should be called with the following variables:
 
-    validator([single_file_path], [folder = True], [results_file_path], [raw=True])
+    validator([single_file=path/to/file], [folder=True], [write=results/file/path], [folder_path=path/to/folder], [raw=True])
 
 The `raw` option returns the validation results as a list of dictionaries.
 
@@ -32,13 +32,13 @@ The example below would validate a single file and save to `more_results.txt`
 
     validator('manifests/test1.json', 'more_results.txt')
 
-The example below would validate a folder of files, but only display the results in the console:
+The example below would validate a folder of files (defaulting to 'manifests' folder), but only display the results in the console:
 
     validator(folder=True)
 
 The example below would validate a folder of files, and return the results as a list of dictionaries:
 
-    results = validator(folder=True, raw=True)
+        results = validator(folder=True, raw=True)
 
 When using as a module, you can also define an alternative folder path:
 
